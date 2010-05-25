@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>{% block title %}Almir Karic{% endblock %}</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="/static/default.css" rel="stylesheet" type="text/css" />
+<link href="/static/syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="/static/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="hacking &raquo; Feed" href="http://feeds.feedburner.com/almirkaric/NZjY" /> 
+
+<script type="text/javascript" src="http://xregexp.com/xregexp-min.js"></script>
+<script type="text/javascript" src="/static/syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="/static/syntaxhighlighter/scripts/shBrushPython.js"></script>
+<script type="text/javascript" src="/static/syntaxhighlighter/scripts/shBrushDiff.js"></script>
+<script type="text/javascript" src="/static/syntaxhighlighter/scripts/shBrushBash.js"></script>
+</head>
+<body>
+<div id="wrapper">
+<!-- start header -->
+<div id="header">
+	<div id="logo">
+            <!--
+		<h1><a>Almir Karic</a></h1>
+            -->
+	</div>
+	<div id="menu">
+		<ul>
+			<li {% if not page and not post %}class="active"{% endif %}><a href="/">homepage</a></li>
+			<li {% if page %}class="active"{% endif %}><a href="/page/about/">about</a></li>
+			{% block nav %} {% endblock %}
+            <!--
+			<li><a href="#">about us</a></li>
+			<li><a href="#">contact us</a></li>
+            -->
+		</ul>
+	</div>
+</div>
+<!-- end header -->
+</div>
+
+<!-- start page -->
+<div id="page">
+<div class="bgtop">
+	<!-- start content -->
+	<div id="content">
+        {% block content %}{% endblock %}
+	</div>
+	<!-- end content -->
+	<!-- start sidebar -->
+	<div id="sidebar">
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 6,
+  interval: 6000,
+  width: 'auto',
+  height: 300,
+  theme: {
+    shell: {
+      background: '#AB5B00',
+      color: '#f7f1ea'
+    },
+    tweets: {
+      background: '#ffffff',
+      color: '#1a181a',
+      links: '#d1811f'
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: false,
+    live: false,
+    hashtags: true,
+    timestamp: true,
+    avatars: false,
+    behavior: 'all'
+  }
+}).render().setUser('redduck666').start();
+</script>
+<script type="text/javascript">
+	     SyntaxHighlighter.all()
+</script>
+	</div>
+	<!-- end sidebar -->
+	<div style="clear: both;">&nbsp;</div>
+</div>
+</div>
+
+<!-- end page -->
+<!-- start footer -->
+<div id="footer">
+</div>
+<!-- end footer -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-xxxxxx-x");
+pageTracker._trackPageview();
+</script>
+</body>
+</html>

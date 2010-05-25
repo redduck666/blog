@@ -1,0 +1,15 @@
+{% extends "/blog/base.html" %}
+{% block content %}
+{% for post in posts %}
+		{% include "/blog/one_post.html" %}
+        <script type="text/javascript">reddit_url='{{ post.url() }}'</script>
+        <script type="text/javascript" src="http://reddit.com/static/button/button1.js?url={{ post.url() }}"></script>
+{% endfor %}
+
+{% if num %}
+<a href="/history/{{ num - 1 }}/">Prev</a>
+{% endif %}
+<a href="/history/{{ num + 1 }}/">Next</a>
+
+
+{% endblock %}
