@@ -86,11 +86,11 @@ class BlagController(BaseController):
         size = int(config['blog_page_size'])
         low, high = num*size, (num+1)*size
         posts = []
-        for num, post in enumerate(Category(name='all').load().resolve()):
-            if num >= low:
+        for cnt, post in enumerate(Category(name='all').load().resolve()):
+            if cnt >= low:
                 posts.append(post)
 
-            if num == high:
+            if cnt == high:
                 break
 
         return render("/blog/history.html", {
