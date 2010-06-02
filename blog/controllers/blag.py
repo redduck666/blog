@@ -9,13 +9,13 @@ import PyRSS2Gen
 from authkit.authorize.pylons_adaptors import authorize
 from authkit.permissions import RemoteUser, ValidAuthKitUser, UserIn
 
-from blog.model.models import Category, Post
+from blog.model.models import Tag, Post
 
 class BlagController(BaseController):
     def feed(self):
         cnt = 0
         items = []
-        for i in Category(name='all').load().resolve():
+        for i in Tag(name='all').load().resolve():
             if cnt > 9:
                 break
             items.append(
@@ -44,13 +44,17 @@ class BlagController(BaseController):
         return render("/pages/%s.html" % name, {'page': True })
 
     def index(self):
-        return self.history(0)
+        return self.history()
 
     @authorize(RemoteUser())
     def edit(self, slug=None):
         post = None
         title = request.params.get('title')
+        text = request.params.get('text', '').encode('utf8')
         text = request.params.get('text')
+        tags = request.params.get('tags-input')
+        if tags:
+            tags = tags.split(', ')
         
         # new post is being created, parse the slug from form
         if not slug:
@@ -59,10 +63,10 @@ class BlagController(BaseController):
         if slug and title and text:
             # perist the post over writing any data with same row key (slug in
             # this case)
-            post = Post(slug=slug, title=title, text=text).save()
+            post = Post(slug=slug, title=title, text=text, tags=tags).save()
             
             # track the post so we can display it
-            c = Category(name='all').load()
+            c = Tag(name='all').load()
             if post not in c.resolve():
                 c.append(post)
                 c.save()
@@ -80,13 +84,13 @@ class BlagController(BaseController):
             'post': Post(slug=slug).load(),
         })
 
-    def history(self, num):
+    def history(self, tag='all', num=0):
         # handle the pagination
         num = int(num)
         size = int(config['blog_page_size'])
         low, high = num*size, (num+1)*size
         posts = []
-        for cnt, post in enumerate(Category(name='all').load().resolve()):
+        for cnt, post in enumerate(Tag(name=tag).load().resolve()):
             if cnt >= low:
                 posts.append(post)
 
@@ -96,6 +100,7 @@ class BlagController(BaseController):
         return render("/blog/history.html", {
             'posts': posts,
             'num': num,
+            'tag': tag,
             })
 
 

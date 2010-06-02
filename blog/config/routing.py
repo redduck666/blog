@@ -21,7 +21,7 @@ def make_map(config):
     map.connect('/', controller='blag', action='index')
     map.connect('/feed/', controller='blag', action='feed')
     map.connect('/page/{name}/', controller='blag', action='page')
-    map.connect('/history/{num}/', controller='blag', action='history')
+    map.connect('/history/{tag}/{num}/', controller='blag', action='history')
     map.connect('/{year}/{month}/{day}/{slug}/', controller='blag', action='post', requirements={'year': '\d{2,4}', 'month': '\d{1,2}', 'day': '\d{1,2}'})
     map.connect('/edit/{slug}/', controller='blag', action='edit')
     map.connect('/edit/', controller='blag', action='edit')

@@ -1,79 +1,71 @@
-<html><head>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="http://static.zemanta.com/core/zemanta-widget.css" />
+<script type="text/javascript" src="http://static.zemanta.com/core/jquery.js"></script>
+<script type="text/javascript" src="http://static.zemanta.com/core/jquery.zemanta.js"></script>
 <script type="text/javascript">
-(function () {
-	function getReleaseId() {
-		var rid = null;
-		try {
-			rid = window.ZemantaGetReleaseId();
-		} catch (er) {
-			rid = 't' + Math.floor(new Date().getTime() / 10000000);
-		}
-		return rid;
+	window.ZemantaGetAPIKey = function () {
+		return 'rh8vvut7jbv6ub5fwk5jdmeh';
 	}
-	function now() {
-		return new Date().getTime();
-	}
-	function load_file(file) {
-		var i = 0, j = 0, obj = null, head = null, release = '';
-		if (file.constructor === Array) { // array
-			for (i = 0, j = file.length; i < j; i += 1) {
-				arguments.callee.call(this, file[i]);
-			}
-			return;
-		}
-		head = arguments.callee.head = arguments.callee.head || document.getElementsByTagName("head")[0];
-		release = arguments.callee.release = arguments.callee.release || '?rel=' + getReleaseId();
-		file += release;
-		if (file.indexOf('.js') >= 0) { //if filename is a external JavaScript file
-			obj = document.createElement('script');
-			obj.setAttribute("type", "text/javascript");
-			obj.setAttribute("src", file);
-		} else if (file.indexOf('.css') >= 0) { //if filename is an external CSS file
-			obj = document.createElement("link");
-			obj.setAttribute("rel", "stylesheet");
-			obj.setAttribute("type", "text/css");
-			obj.setAttribute("href", file);
-		}
-		if (head && obj) {
-			head.appendChild(obj);
-		}
-	}
-	
-	var staticDomain = 'http://static.zemanta.com/',
-		widget = document.createElement('div'),
-		insertionSpace = null,
-		t0 = now();
-	
-	widget.setAttribute('id', 'zemanta-sidebar');
-	widget.innerHTML = '<div id="zemanta-control" class="zemanta"></div><div id="zemanta-message" class="zemanta">Loading Zemanta...</div><div id="zemanta-filter" class="zemanta"></div><div id="zemanta-gallery" class="zemanta"></div><div id="zemanta-articles" class="zemanta"></div><div id="zemanta-preferences" class="zemanta"></div>';
-	
-	(function () {
-		insertionSpace = document.getElementById('put-zemanta-before-this-element');
-		if (insertionSpace) {
-			insertionSpace.parentNode.insertBefore(widget, insertionSpace);
-			load_file([
-				staticDomain + 'core/zemanta-widget.css',
-				staticDomain + 'core/jquery.js',
-				staticDomain + 'core/jquery.zemanta.js',
-				//'/path/to/your/zemanta-widget-<platform>.css',
-				'http://code.zemanta.com/integrations/sdk/platform.js',
-			]);
-		} else if (now() - t0 < 5000) { // in 5s DOM should be available - should we check the ondomready/onload event?
-			setTimeout(arguments.callee, 100);
-		}
-	})();
-})();
-
-
 </script>
+<script type="text/javascript" src="http://code.zemanta.com/integrations/sdk/platform.js"></script>
 </head><body>
 <form name="input" action="." method="post">
-<input name="title" {% if post %}value="{{ post.get('title') }}"{% endif %} type="text">
+<table>
+<tr>
+		<td>title</td>
+		<td>
+				<input name="title" {% if post %}value="{{ post.get('title') }}"{% endif %} type="text">
+		</td>
+</tr>
+
 {% if not post %}
-<input name="slug" type="text">
+<tr>
+		<td>slug:</td>
+		<td><input name="slug" type="text"></td>
+</tr>
 {% endif %}
-<textarea name="text" id="editor-textarea">{% if post %}{{ post.txt() }}{% endif %}</textarea>
-<input type="submit">
+<tr>
+		<td colspan="2">
+				<div id="zemanta-sidebar">
+				<div id="zemanta-control" class="zemanta"></div>
+				<div id="zemanta-message" class="zemanta">Loading Zemanta...</div>
+				<div id="zemanta-filter" class="zemanta"></div>
+				<div id="zemanta-gallery" class="zemanta"></div>
+				<div id="zemanta-articles" class="zemanta"></div>
+				<div id="zemanta-preferences" class="zemanta"></div>
+				</div>
+		</td>
+</tr>
+<tr>
+		<td colspan="2">
+				<div id="zemanta-links-div">
+				<ul id="zemanta-links-div-ul">
+						<li class="zemanta-title"><span>Link recommendations will appear here</span> &laquo; Links</li>
+				</ul>
+				<p class="zem-clear">&nbsp;</p>
+				</div>
+		</td>
+</tr>
+<tr>
+		<td colspan="2">
+				<div id="zemanta-tags-div">
+				<ul id="zemanta-tags-div-ul">
+						<li class="zemanta-title"><span>Tag recommendations will appear here</span> &laquo; Tags</li>
+				</ul>
+				<p class="zem-clear">&nbsp;</p>
+				</div>
+		</td>
+</tr>
+<tr>
+		<td>
+				<textarea name="text" id="editor-textarea">{% if post %}{{ post.txt() }}{% endif %}</textarea>
+				<input id="tags-input" name="tags-input" type="text">
+		</td>
+</tr>
+<tr>
+		<td><input type="submit"></td>
+</tr>
+</table>
 </form>
-<div id='put-zemanta-before-this-element'></div>
 </body></html>

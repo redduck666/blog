@@ -17,9 +17,10 @@ class Post(Model):
     title = StringField()
     text = StringField()
     pub_date = TimestampField(autoset_on_create=True)
+    tags = ListField(mandatory=False)
 
     def txt(self):
-        text = self.column_value['text']
+        text = self.column_value.get('text')
         if isinstance(text, str):
             return unicode(text, errors='ignore')
         else:
@@ -35,8 +36,16 @@ class Post(Model):
         date = self.date()
         return '%s/%s/%s/%s/%s/' % (config['blog_base_url'], date.year, date.month, date.day, self.get('slug'))
 
+    def html_tags(self):
+        # XXX: this is a major WTF, self.get('tags') sometimes returns a string
+        #new_list = self.get('tags') or []
+        from simplejson import loads
+        from ipdb import set_trace; set_trace() 
+        new_list = loads(loads(self.column_value.get('tags') or '[]'))
+        return ['<a href="/history/%s/0/">%s</a>' % (i, i) for i in new_list]
 
-class Category(Index):
+
+class Tag(Index):
     name = RowKey()
     targetmodel = ForeignKey(foreign_class=Post, compare_with='BytesType')
 

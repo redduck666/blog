@@ -3,9 +3,8 @@
 			<div class="entry">
 				{{ post.txt() }}
 			</div>
-			{# 
-			<div class="meta">
-				<p class="links"><a href="#" class="more">Read full article</a>&nbsp;&nbsp;&raquo;&nbsp;&nbsp;<a href="#" class="comments">View Comments (32)</a></p>
-			</div>
-			#}
+			<div>
+				Tags:  {{ post.html_tags()|join(" ,") }}
+				
+		  </div>
 		</div>
