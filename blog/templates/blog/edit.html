@@ -60,7 +60,7 @@
 <tr>
 		<td>
 				<textarea name="text" id="editor-textarea">{% if post %}{{ post.txt() }}{% endif %}</textarea>
-				<input id="tags-input" name="tags-input" type="text">
+				<input id="tags-input" name="tags-input" type="text" {% if post %}value="{{ post.get("tags")|join(", ") }}"{% endif %}>
 		</td>
 </tr>
 <tr>

@@ -4,7 +4,8 @@
 				{{ post.txt() }}
 			</div>
 			<div>
-				Tags:  {{ post.html_tags()|join(" ,") }}
-				
+				{% if post.get("tags") %}
+						Tags:  {{ post.html_tags()|join(" ,") }}
+				{% endif %}
 		  </div>
 		</div>

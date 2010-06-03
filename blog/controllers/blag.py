@@ -21,6 +21,7 @@ class BlagController(BaseController):
             items.append(
                 PyRSS2Gen.RSSItem(
                     title = i.get('title'),
+                    author = 'Almir Karic',
                     link = i.url(),
                     description = i.txt(),
                     guid = PyRSS2Gen.Guid(i.url()),
@@ -55,6 +56,8 @@ class BlagController(BaseController):
         tags = request.params.get('tags-input')
         if tags:
             tags = tags.split(', ')
+        else:
+            tags = []
         
         # new post is being created, parse the slug from form
         if not slug:
@@ -92,7 +95,7 @@ class BlagController(BaseController):
         posts = []
         for cnt, post in enumerate(Tag(name=tag).load().resolve()):
             if cnt >= low:
-                posts.append(post)
+                posts.append(post.load())
 
             if cnt == high:
                 break

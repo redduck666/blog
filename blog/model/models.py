@@ -37,12 +37,9 @@ class Post(Model):
         return '%s/%s/%s/%s/%s/' % (config['blog_base_url'], date.year, date.month, date.day, self.get('slug'))
 
     def html_tags(self):
-        # XXX: this is a major WTF, self.get('tags') sometimes returns a string
-        #new_list = self.get('tags') or []
-        from simplejson import loads
-        from ipdb import set_trace; set_trace() 
-        new_list = loads(loads(self.column_value.get('tags') or '[]'))
-        return ['<a href="/history/%s/0/">%s</a>' % (i, i) for i in new_list]
+        if self.get('tags'):
+            return ['<a href="/history/%s/0/">%s</a>' % (i, i) for i in self.get('tags')]
+        return []
 
 
 class Tag(Index):
